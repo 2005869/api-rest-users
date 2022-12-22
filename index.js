@@ -1,3 +1,4 @@
+const PORT = 8686;
 var bodyParser = require('body-parser')
 var express = require("express")
 var app = express()
@@ -10,6 +11,6 @@ app.use(bodyParser.json())
 
 app.use("/",router);
 
-app.listen(8686,() => {
-    console.log("Servidor rodando")
+app.listen(PORT,() => {
+    console.log("api users run")
 });
