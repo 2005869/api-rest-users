@@ -29,6 +29,30 @@ class User{
         }
         
     }
+
+    async findAll(){
+        try{
+            var result = await knex.select(['id', 'name', 'email', 'role']).table('users');
+
+            return result;
+        }catch(err){
+            console.log(err);
+            return [];
+        }
+        
+    }
+
+    async findById(id){
+        try{
+            var result = await knex.select(['id', 'name', 'email', 'role']).where({id:id}).table('users');
+
+            return result;
+        }catch(err){
+            console.log(err);
+            return [];
+        }
+        
+    }
 }
 
 module.exports = new User();
