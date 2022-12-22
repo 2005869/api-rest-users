@@ -53,6 +53,51 @@ class User{
         }
         
     }
+
+    async update(id, name, email, role){
+        
+        if (!isNaN(id) && id != undefined){
+            
+            var editUser = {}
+            var user = await this.findById(id);
+            
+            if (user != undefined && user.length > 0){
+                
+                if (email != user.email){
+                    var result = await this.findEmail(email);
+                    
+                    if (result == false){
+                        editUser.email = email;
+                    }else{
+                        return {err: 'email already exist'};
+                    }
+                }
+
+                if (name != undefined && name != user.name){
+                    editUser.name = name;
+                }
+    
+                if (role != undefined && !isNaN(role)){
+                    editUser.role = role;
+                }
+    
+                try{                
+                    var result = await knex.update(editUser).where({id: id}).table('users');
+                    return {status: true};
+                }catch(err){
+                    return {status: false, err};
+                }
+
+                }else{
+                    return {status: false, err: 'user not find by id'};
+                }                          
+        }else{
+            return {status: false, err: 'invalid id'};
+        }
+        
+
+        
+    }
 }
 
 module.exports = new User();
