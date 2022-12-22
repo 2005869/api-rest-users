@@ -1,3 +1,5 @@
+const User = require('../models/User');
+
 class UserController{
     
     async index(req, res){}
@@ -9,6 +11,7 @@ class UserController{
         if (name == undefined || email == undefined || password == undefined){
             res.status(400);
             res.json({err: 'Fill all fields in order: name, email and password'});
+            return;
         }
         
         if (name.length < 3 || email.length < 4 || password.length < 8){
@@ -17,10 +20,24 @@ class UserController{
                             1 - The lenght of name minimum is 4 chars
                             2 - Check your email
                             3 - The password require minimum of 8 chars`});
+            return;
         }
         
-        res.status(200);
-        res.send('get body of req');
+        var emailExists = await User.findEmail(email);
+        
+        if (emailExists){
+            res.status(406);
+            res.json({err: 'email exist in database'});
+            return;
+        }else{
+            await User.new(name, email, password);
+        
+            res.status(200);
+            res.send('user signup with success');
+            return;
+        }
+
+        
     }
 
    
