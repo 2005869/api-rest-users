@@ -45,11 +45,15 @@ class User{
     async findById(id){
         try{
             var result = await knex.select(['id', 'name', 'email', 'role']).where({id:id}).table('users');
-
-            return result;
+            if (result.length != 0){
+                return result;
+            }else{
+                return undefined;
+            }
+            
         }catch(err){
             console.log(err);
-            return [];
+            return undefined;
         }
         
     }
@@ -97,6 +101,20 @@ class User{
         
 
         
+    }
+
+    async delete(id){
+        var user = await this.findById(id);
+        if (user != undefined){
+            try{
+                await knex.delete().where({id: id}).table('users');
+                return {status: true};
+            }catch(err){
+                return {status: false, err: err};    
+            }
+        }else{
+            return {status: false, err: 'user with this id dont exist'};
+        }
     }
 }
 
