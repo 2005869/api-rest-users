@@ -4,6 +4,11 @@
         <hr>
         <div class="columns is-centered">
             <div class="column is-half">
+                <div v-if="error != undefined">
+                    <div class="notification is-danger">
+                        <p>{{ error }}</p>
+                    </div>
+                </div>
                 <p>Name:</p>
                 <input type="text" name="username" id="username" placeholder="username" class="input" v-model="name"><br><br>
                 <p>E-mail:</p>
@@ -18,19 +23,30 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+
 export default {
     data() {
         return {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            error: undefined
         }
     },
     methods: {
         register(){
-            console.log(this.name);
-            console.log(this.email);
-            console.log(this.password);
+            axios.post('http://localhost:8686/user', {
+                name: this.name,
+                password: this.password,
+                email: this.email
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                var msgError = err.response.data.err;
+                this.error = msgError;
+            });
         }
     }
     
