@@ -150,10 +150,11 @@ class UserController{
                 res.json({token: token});
             }else{
                 res.status(406);
-                res.send('invalid password');
+                res.json({err: 'Err1: Invalid e-mail or password.'});
             }
         }else{
-            res.json({status: 'err'});
+            res.status(406);
+            res.json({err: 'Err2: Invalid e-mail or password.'});
         }
     }
 
