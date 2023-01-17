@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import SuccessView from '../views/SuccessView.vue'
 import LoginView from '../views/LoginView.vue'
+import UsersView from '../views/UsersView.vue'
 
 const routes = [
   {
@@ -32,6 +33,18 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginView
+  },
+  {
+    path: '/admin/users',
+    name: 'UsersView',
+    component: UsersView,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('token') != undefined){
+        next();
+      }else{
+        next('/login');
+      }
+    }
   }
 ]
 
