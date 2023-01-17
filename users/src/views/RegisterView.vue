@@ -43,6 +43,7 @@ export default {
                 email: this.email
             }).then(res => {
                 console.log(res);
+                this.$router.push({name: 'Success'});
             }).catch(err => {
                 var msgError = err.response.data.err;
                 this.error = msgError;
