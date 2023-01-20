@@ -1,33 +1,32 @@
-var jwt = require('jsonwebtoken');
-var secret = 'ahuhafduhadsfuhdufhufidsjagfgkldsfdsk';
+const User = require('../models/User');
 
 
-module.exports = function(req, res, next){
+module.exports = async function(req, res, next){
 
-    const authToken = req.headers['Authorization'];
-    
+    var authToken = req.headers['authorization'];
+    var emailToken = req.headers['email'];
+
     if (authToken != undefined){
         const bearer = authToken.split(' ');
-        var token = bearer[1];
+        const token = bearer[1];
+        
         try{
-            var decoded = jwt.verify(token, secret);
+            var user = await User.findByEmail(emailToken);
 
-            if (decoded.role == 1){
-                console.log(decoded);
+            console.log(user.role);
+            if (user != undefined && user.role == 1){                
                 next();
             }else{
                 res.status(403);
                 res.send('not authorized');
+                res.json({error: 'You need admin credentials'})
                 return;
             }
-            
         }catch(err){
             res.status(403);
             res.send('not authorized');
             return;
         }
-        
-
     }else{
         res.status(403);
         res.send('not auth');

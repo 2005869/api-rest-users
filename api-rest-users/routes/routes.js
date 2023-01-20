@@ -5,6 +5,7 @@ var HomeController = require("../controllers/HomeController");
 var UserController = require('../controllers/UserController');
 const User = require("../models/User");
 var adminAuth = require('../middleware/adminauth');
+var tokenAuth = require('../middleware/tokenauth');
 
 // HomeController
 router.get('/', HomeController.index);
@@ -19,6 +20,6 @@ router.delete('/user/:id', UserController.remove);
 router.post('/recoverypassword', UserController.recovery_password);
 router.post('/changepassword', UserController.changePassword);
 router.post('/login', UserController.login);
-router.post('/validate', adminAuth ,HomeController.validade);
+router.post('/validate', tokenAuth, HomeController.validade);
 
 module.exports = router;

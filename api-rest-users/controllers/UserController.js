@@ -76,6 +76,7 @@ class UserController{
         
     }
 
+
     async edit(req, res){
         var {id, name, email, role} = req.body;
 
@@ -147,7 +148,7 @@ class UserController{
             if (user){
                 var token = jwt.sign({email: user.email, role: user.role}, secret);
                 res.status(200);
-                res.json({token: token});
+                res.json({token: token, email: email});
             }else{
                 res.status(406);
                 res.json({err: 'Err1: Invalid e-mail or password.'});
@@ -157,8 +158,6 @@ class UserController{
             res.json({err: 'Err2: Invalid e-mail or password.'});
         }
     }
-
-
 }
 
 module.exports = new UserController();

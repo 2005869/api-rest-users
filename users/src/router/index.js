@@ -4,6 +4,33 @@ import RegisterView from '../views/RegisterView.vue'
 import SuccessView from '../views/SuccessView.vue'
 import LoginView from '../views/LoginView.vue'
 import UsersView from '../views/UsersView.vue'
+import axios from 'axios';
+
+function adminAuth(to, from, next){
+  if (localStorage.getItem('token') != undefined){
+    const token = 'Bearer ' + localStorage.getItem('token');
+    const email = localStorage.getItem('email');
+
+    const req = {
+      headers: {
+        Authorization: token,
+        email
+      }
+    }
+    
+    axios.post('http://localhost:8686/validate', {}, req).then(res => {
+      console.log(res);
+      next();
+    }).catch(err => {
+      console.log(err.response);
+      next('/login');
+    });
+  }else{
+    next('/login');
+  }
+}
+  
+
 
 const routes = [
   {
@@ -38,13 +65,7 @@ const routes = [
     path: '/admin/users',
     name: 'UsersView',
     component: UsersView,
-    beforeEnter: (to, from, next) => {
-      if (localStorage.getItem('token') != undefined){
-        next();
-      }else{
-        next('/login');
-      }
-    }
+    beforeEnter: adminAuth
   }
 ]
 
