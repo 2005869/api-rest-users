@@ -13,7 +13,6 @@ module.exports = async function(req, res, next){
         try{
             var user = await User.findByEmail(emailToken);
 
-            console.log(user.role);
             if (user != undefined && user.role == 1){                
                 next();
             }else{
