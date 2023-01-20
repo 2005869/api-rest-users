@@ -13,7 +13,7 @@ router.get('/', HomeController.index);
 
 // UserController
 router.post('/user', UserController.create);
-router.get('/user', adminAuth, UserController.index);
+router.get('/user', tokenAuth, UserController.index);
 router.get('/user/:id', UserController.findUserById);
 router.put('/user/', UserController.edit);
 router.delete('/user/:id', UserController.remove);
