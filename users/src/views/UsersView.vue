@@ -24,7 +24,7 @@
                             <td v-if="user.role == 0">User</td>
                             <td v-if="user.role == 1" class="notification is-link">Admin</td>
                             <td>
-                                <button class="button is-primary is-responsive">Edit</button>&nbsp;
+                                <button class="button is-primary is-responsive" @click="editUser(user.id)">Edit</button>&nbsp;
                                 <button class="button is-danger is-responsive" @click="showModal(user.id)">Remove</button>
                             </td>
                         </tr>
@@ -95,7 +95,7 @@ export default {
     data(){
         return {users: [],
             statusModal: false,
-            deleteUserId: -1
+            deleteUserId: -1,
         }
     },
     methods: {
@@ -125,6 +125,9 @@ export default {
             }).catch(err => {
                 console.log(err);
             });
+        },
+        editUser(id){
+            this.$router.push({path: '/admin/users/edit/' + id});
         }
     }
 }

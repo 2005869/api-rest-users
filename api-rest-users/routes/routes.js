@@ -14,8 +14,8 @@ router.get('/', HomeController.index);
 // UserController
 router.post('/user', UserController.create);
 router.get('/user', tokenAuth, UserController.index);
-router.get('/user/:id', UserController.findUserById);
-router.put('/user/', UserController.edit);
+router.get('/user/:id', tokenAuth ,UserController.findUserById);
+router.put('/user/', tokenAuth ,UserController.edit);
 router.delete('/user/:id', tokenAuth ,UserController.remove);
 router.post('/recoverypassword', UserController.recovery_password);
 router.post('/changepassword', UserController.changePassword);

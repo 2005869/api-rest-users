@@ -103,20 +103,14 @@ class User{
             if (user != undefined && user.length > 0){
                 
                 if (email != user.email){
-                    var result = await this.findEmail(email);
-                    
-                    if (result == false){
-                        editUser.email = email;
-                    }else{
-                        return {err: 'email already exist'};
-                    }
+                    editUser.email = email;
                 }
 
                 if (name != undefined && name != user.name){
                     editUser.name = name;
                 }
     
-                if (role != undefined && !isNaN(role)){
+                if (role != undefined && !isNaN(role) && (role == 0 || role == 1)){
                     editUser.role = role;
                 }
     
@@ -127,15 +121,12 @@ class User{
                     return {status: false, err};
                 }
 
-                }else{
-                    return {status: false, err: 'user not find by id'};
-                }                          
+            }else{
+                return {status: false, err: 'user not find by id'};
+            }                          
         }else{
             return {status: false, err: 'invalid id'};
         }
-        
-
-        
     }
 
     async delete(id){
